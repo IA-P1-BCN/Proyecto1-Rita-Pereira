@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Entornos virtuales
+venv/
+env/
+.venv/
+
+# Editor / SO
+.vscode/
+.DS_Store
+
+# Logs (si no quieres versionarlos)
+logs/*.log
