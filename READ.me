@@ -1,0 +1,52 @@
+# Proyecto1-Rita-Pereira — Taxímetro Digital
+
+Prototipo de un sistema de taxímetro 100% software para TaxiTech Solutions, que sustituye a los taxímetros físicos Hale T200 (sin soporte desde 2023).
+
+Proyecto individual — Bootcamp IA, Factoría F5.
+
+## Descripción
+
+Aplicación que calcula el coste de una carrera de taxi en tiempo real, según si el vehículo está parado o en movimiento. El taxista puede iniciar la carrera, cambiar de estado, finalizarla y ver el total en euros.
+
+## Tarifas (Zona EMT Madrid, junio 2025)
+
+- Parado o velocidad < 20 km/h: 0.02 €/segundo
+- En movimiento: 0.05 €/segundo
+
+Configurables en `config/tarifas.json`.
+
+## Arquitectura
+
+Estructura por capas (domain / application / infrastructure / interfaces), separando la lógica de negocio de los detalles técnicos:
+
+taximetro/
+├── src/
+│ ├── domain/ # Carrera, Tarifa — reglas de negocio puras
+│ ├── application/ # Casos de uso: iniciar, cambiar_estado, finalizar
+│ ├── infrastructure/ # Persistencia, logging, configuración
+│ └── interfaces/ # cli.py, gui.py, api.py
+├── config/tarifas.json
+├── logs/
+├── tests/
+└── README.md
+
+
+## Instalación
+
+```bash
+conda create -n taximetro python=3.10
+conda activate taximetro
+git clone https://github.com/IA-P1-BCN/Proyecto1-Rita-Pereira.git
+cd Proyecto1-Rita-Pereira
+```
+
+## Estado del proyecto
+
+En desarrollo. Seguimiento de tareas en el [tablero Kanban](https://github.com/orgs/IA-P1-BCN/projects/3).
+
+## Fases
+
+- **Fase 1 (MVP):** iniciar, cambiar de estado, finalizar carrera, encadenar carreras
+- **Fase 2:** logs, histórico, configuración de tarifas, tests
+- **Fase 3:** contraseña, GUI
+- **Fase 4:** base de datos, API REST, dashboard web
