@@ -15,3 +15,6 @@ env/
 
 # Logs (si no quieres versionarlos)
 logs/*.log
+
+# Historial de carreras (si no quieres versionarlo) 
+data/historial.json
