@@ -2,9 +2,14 @@ from src.domain.carrera import Carrera
 from src.domain.tarifa import Tarifa
 from src.infrastructure.historial import guardar_carrera, obtener_historial_dia
 from src.infrastructure.logger import configurar_logger
+import json
+
 
 def cargar_tarifa():
-    tarifa = Tarifa(0.02, 0.05)
+    with open("config/tarifas.json", "r") as f:
+        datos = json.load(f)
+
+    tarifa = Tarifa(**datos)
     return tarifa
 
 def mostrar_menu():
