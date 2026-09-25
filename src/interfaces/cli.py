@@ -2,6 +2,7 @@ from src.domain.carrera import Carrera
 from src.domain.tarifa import Tarifa
 from src.infrastructure.historial import guardar_carrera, obtener_historial_dia
 from src.infrastructure.logger import configurar_logger
+from src.infrastructure.auth import verificar_password
 import json
 
 
@@ -19,12 +20,25 @@ def mostrar_menu():
     print("3. Finalizar carrera y cobrar")
     print("4. Ver histórico del día")
     print("5. Salir")
+    print("6. Bloquear aplicación")
+
+def pedir_password(logger):
+    while True:
+        intento = input("Introduce la contraseña: ")
+        if verificar_password(intento):
+            print("Acceso concedido.")
+            logger.info("Acceso concedido con contraseña correcta.")
+            break
+        else:
+            print("Contraseña incorrecta, inténtalo de nuevo.")
+            logger.warning("Intento de acceso con contraseña incorrecta.")
 
 def main():
     tarifa = cargar_tarifa()
     carrera_activa = None
     logger = configurar_logger()
     logger.info("Aplicación iniciada por el usuario.")
+    pedir_password(logger)
 
     while True:
         mostrar_menu()
@@ -70,6 +84,11 @@ def main():
                 print(f"\n--- HISTÓRICO DE HOY ({len(historial)} carreras) ---")
                 for carrera in historial:
                     print(f"{carrera['hora_inicio']} → {carrera['hora_fin']}: {carrera['total']} €")
+
+        elif opcion == "6":
+                print("Aplicación bloqueada.")
+                logger.info("Aplicación bloqueada por el usuario.")
+                pedir_password(logger)
 
         elif opcion == "5":
             print("Cerrando aplicación. Hasta luego.")
