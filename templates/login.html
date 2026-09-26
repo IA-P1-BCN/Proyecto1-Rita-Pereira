@@ -24,7 +24,12 @@
             font-size: 1.5em;
             margin-bottom: 30px;
         }
-
+        h2 {
+    font-size: 1.1em;
+    font-weight: normal;
+    color: #cccccc;
+    margin-bottom: 20px;
+        }
         form {
             width: 90%;
             max-width: 400px;
@@ -55,8 +60,10 @@
 </head>
 
 <body>
-    <h1>Introduce la contraseña</h1>
+        <h1>🚕 Acceso Taxímetro</h1>
+        <h2>Introduce la contraseña</h2>
     <form method="POST">
+        <input type="text" name="nombre" placeholder="Tu nombre" required>
         <input type="password" name="password" placeholder="Contraseña" inputmode="numeric" pattern="[0-9]*">
         <button type="submit">Entrar</button>
     </form>

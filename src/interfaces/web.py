@@ -16,8 +16,10 @@ carrera_activa = None
 def login():
     if request.method == "POST":
         password = request.form.get("password")
+        nombre = request.form.get("nombre")
         if verificar_password(password):
             session["autenticado"] = True
+            session["nombre"] = nombre
             return redirect(url_for("home"))
         else:
             return render_template("login.html", error="Contraseña incorrecta")
@@ -27,7 +29,7 @@ def login():
 def home():
     if not session.get("autenticado"):
         return redirect(url_for("login"))
-    return render_template("index.html")
+    return render_template("index.html", nombre=session.get("nombre"))
 
 @app.route("/api/carrera/iniciar", methods=["POST"])
 def iniciar_carrera():
@@ -80,6 +82,7 @@ def ver_historial():
 @app.route("/logout")
 def logout():
     session.pop("autenticado", None)
+    session.pop("nombre", None)
     return redirect(url_for("login"))
 
 if __name__ == "__main__":

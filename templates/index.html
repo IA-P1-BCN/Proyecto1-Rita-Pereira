@@ -13,6 +13,14 @@
             margin: 0;
             padding: 20px;
         }
+        .card {
+            background-color: #2a2a2a;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            padding: 25px 20px;
+            max-width: 420px;
+            margin: 0 auto;
+        }
         h1 { font-size: 1.5em; }
         #estado {
             font-size: 1.3em;
@@ -31,8 +39,9 @@
             margin: 10px 0;
             font-size: 1.3em;
             border: none;
-            border-radius: 10px;
+            border-radius: 16px;
             cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
         #btn-iniciar { background-color: #4CAF50; color: white; }
         #btn-estado { background-color: #FF9800; color: white; }
@@ -43,20 +52,22 @@
     </style>
 </head>
 <body>
-    <h1>🚕 Taxímetro Digital</h1>
-    <div id="estado">Sin carrera activa</div>
-    <div id="total">0.00 €</div>
-    <div id="mensaje"></div>
+    <div class="card">
+        <h1>🚕 Taxímetro Digital</h1>
+        <p>Hola, {{ nombre }} 👋</p>
+        <div id="estado">Sin carrera activa</div>
+        <div id="total">0.00 €</div>
+        <div id="mensaje"></div>
 
-    <button id="btn-iniciar" onclick="iniciarCarrera()">Iniciar Carrera</button>
-    <button id="btn-estado" onclick="cambiarEstado()">Cambiar Estado</button>
-    <button id="btn-finalizar" onclick="finalizarCarrera()">Finalizar Carrera</button>
-    <button id="btn-historial" onclick="verHistorial()">Ver Histórico</button>
-    <button id="btn-bloquear" onclick="location.href='/logout'" style="background-color: #555; color: white;">Bloquear
-        pantalla</button>
+        <button id="btn-iniciar" onclick="iniciarCarrera()">Iniciar Carrera</button>
+        <button id="btn-estado" onclick="cambiarEstado()">Cambiar Estado</button>
+        <button id="btn-finalizar" onclick="finalizarCarrera()">Finalizar Carrera</button>
+        <button id="btn-historial" onclick="verHistorial()">Ver Histórico</button>
+        <button id="btn-bloquear" onclick="location.href='/logout'" style="background-color: #555; color: white;">Bloquear
+            pantalla</button>
 
-    <div id="historial-lista"></div>
-
+        <div id="historial-lista"></div>
+    </div>
     <script>
         async function iniciarCarrera() {
             const res = await fetch("/api/carrera/iniciar", { method: "POST" });
