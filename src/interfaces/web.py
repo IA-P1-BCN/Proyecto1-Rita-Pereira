@@ -27,7 +27,7 @@ def login():
 def home():
     if not session.get("autenticado"):
         return redirect(url_for("login"))
-    return "Taxímetro Digital funcionando"
+    return render_template("index.html")
 
 @app.route("/api/carrera/iniciar", methods=["POST"])
 def iniciar_carrera():
@@ -63,11 +63,24 @@ def finalizar_carrera():
         carrera_activa = None
         return jsonify({"mensaje": "Carrera finalizada", "total": round(total, 2)})
 
+@app.route("/api/carrera/actual", methods=["GET"])
+def carrera_actual():
+    if not session.get("autenticado"): return jsonify({"error": "No autenticado"}), 401
+    if carrera_activa is None:
+        return jsonify({"activa": False})
+    else:
+        return jsonify({"activa": True, "estado": carrera_activa.estado_actual, "total": round(carrera_activa.total_actual(tarifa), 2)})
+
 @app.route("/api/historial", methods=["GET"])
 def ver_historial():
     if not session.get("autenticado"): return jsonify({"error": "No autenticado"}), 401
     historial = obtener_historial_dia()
     return jsonify(historial)
 
+@app.route("/logout")
+def logout():
+    session.pop("autenticado", None)
+    return redirect(url_for("login"))
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)

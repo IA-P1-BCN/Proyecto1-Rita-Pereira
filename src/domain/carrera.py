@@ -34,3 +34,17 @@ class Carrera:
 
     def calcular_total(self, tarifa):
         return tarifa.calcular_coste(self.segundos_parado, self.segundos_movimiento)
+
+    def total_actual(self, tarifa):
+        ahora = time.time()
+        segundos_transcurridos = ahora - self.hora_inicio_estado_actual
+
+        parado = self.segundos_parado
+        movimiento = self.segundos_movimiento
+
+        if self.estado_actual == "parado":
+            parado += segundos_transcurridos
+        else:
+            movimiento += segundos_transcurridos
+
+        return tarifa.calcular_coste(parado, movimiento)

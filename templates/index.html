@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taxímetro Digital</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #1a1a1a;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 { font-size: 1.5em; }
+        #estado {
+            font-size: 1.3em;
+            margin: 20px 0;
+        }
+        #total {
+            font-size: 3em;
+            font-weight: bold;
+            color: #4CAF50;
+            margin: 20px 0;
+        }
+        button {
+            width: 90%;
+            max-width: 400px;
+            padding: 25px;
+            margin: 10px 0;
+            font-size: 1.3em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        #btn-iniciar { background-color: #4CAF50; color: white; }
+        #btn-estado { background-color: #FF9800; color: white; }
+        #btn-finalizar { background-color: #f44336; color: white; }
+        #btn-historial { background-color: #2196F3; color: white; }
+        #mensaje { margin: 15px 0; min-height: 1.5em; }
+        #historial-lista { text-align: left; max-width: 400px; margin: 0 auto; }
+    </style>
+</head>
+<body>
+    <h1>🚕 Taxímetro Digital</h1>
+    <div id="estado">Sin carrera activa</div>
+    <div id="total">0.00 €</div>
+    <div id="mensaje"></div>
+
+    <button id="btn-iniciar" onclick="iniciarCarrera()">Iniciar Carrera</button>
+    <button id="btn-estado" onclick="cambiarEstado()">Cambiar Estado</button>
+    <button id="btn-finalizar" onclick="finalizarCarrera()">Finalizar Carrera</button>
+    <button id="btn-historial" onclick="verHistorial()">Ver Histórico</button>
+    <button id="btn-bloquear" onclick="location.href='/logout'" style="background-color: #555; color: white;">Bloquear
+        pantalla</button>
+
+    <div id="historial-lista"></div>
+
+    <script>
+        async function iniciarCarrera() {
+            const res = await fetch("/api/carrera/iniciar", { method: "POST" });
+            const datos = await res.json();
+            mostrarMensaje(datos.mensaje || datos.error);
+        }
+
+        async function cambiarEstado() {
+            const res = await fetch("/api/carrera/estado", { method: "POST" });
+            const datos = await res.json();
+            mostrarMensaje(datos.mensaje || datos.error);
+        }
+
+        async function finalizarCarrera() {
+            const res = await fetch("/api/carrera/finalizar", { method: "POST" });
+            const datos = await res.json();
+            if (datos.total !== undefined) {
+                mostrarMensaje(`Carrera finalizada. Total: ${datos.total.toFixed(2)} €`);
+            } else {
+                mostrarMensaje(datos.error);
+            }
+        }
+
+        async function verHistorial() {
+                const res = await fetch("/api/historial");
+                const datos = await res.json();
+                const lista = document.getElementById("historial-lista");
+                if (datos.length === 0) {
+                    lista.innerHTML = "<p>No hay carreras registradas hoy.</p>";
+                } else {
+                    const totalDia = datos.reduce((suma, c) => suma + c.total, 0);
+                    lista.innerHTML = "<h3>Histórico de hoy</h3>" + datos.map(c =>
+                        `<p>${c.hora_inicio} → ${c.hora_fin}: ${c.total} €</p>`
+                    ).join("") + `<p><strong>Total del día: ${totalDia.toFixed(2)} €</strong></p>`;
+                }
+            }
+
+        function mostrarMensaje(texto) {
+            document.getElementById("mensaje").innerText = texto;
+        }
+
+        async function actualizarEstado() {
+            const res = await fetch("/api/carrera/actual");
+            const datos = await res.json();
+            if (datos.activa) {
+                document.getElementById("estado").innerText = "Estado: " + datos.estado;
+                document.getElementById("total").innerText = datos.total.toFixed(2) + " €";
+            } else {
+                document.getElementById("estado").innerText = "Sin carrera activa";
+                document.getElementById("total").innerText = "0.00 €";
+            }
+        }
+
+        setInterval(actualizarEstado, 1000);
+        actualizarEstado();
+    </script>
+</body>
+</html>
