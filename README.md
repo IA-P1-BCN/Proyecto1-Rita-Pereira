@@ -36,7 +36,7 @@ The project follows a layered architecture:
 - `src/interfaces/` — entry points (`cli.py` for the command line, `web.py` for the Flask web/API app)
 
 ## Project Structure
-
+```
 taxitech/
 ├── config/
 │ ├── tarifas.json # Fare configuration
@@ -64,30 +64,30 @@ taxitech/
 ├── main.py
 ├── pytest.ini
 └── requirements.txt
-
+```
 ## Setup
 
 1. Create and activate the conda environment:
-
+```
 conda create -n taximetro python=3.x
 conda activate taximetro
-
+```
 2. Install dependencies:
-
+```
 pip install -r requirements.txt
-
+```
 ## Usage
 
 ### Command-line interface
-
+```
 python -m src.interfaces.cli
-
+```
 Menu options: start trip, change state (stopped/moving), end trip and charge, view today's history, exit, lock the app.
 
 ### Web app (recommended for tablet/mobile use)
-
+```
 python -m src.interfaces.web
-
+```
 
 By default the server runs on `http://127.0.0.1:5000` and is also reachable from other devices on the same WiFi network at `http://YOUR_COMPUTER_IP:5000` (find your local IP with `ipconfig getifaddr en0` on macOS).
 
@@ -110,9 +110,9 @@ All endpoints require an authenticated session (login via `/login` first).
 Access is protected by a password, stored as a SHA-256 hash in `config/security.json` — no plaintext credentials are stored anywhere in the project.
 
 ## Testing
-
+```
 pytest
-
+```
 
 Covers the fare calculation logic (`Tarifa.calcular_coste`) across normal, edge, and zero-rate cases.
 
