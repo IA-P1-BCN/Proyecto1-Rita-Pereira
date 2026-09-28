@@ -101,7 +101,11 @@ Menu options: start trip, change state (stopped/moving), end trip and charge, vi
 python -m src.interfaces.web
 ```
 
-By default the server runs on `http://127.0.0.1:5000` and is also reachable from other devices on the same WiFi network at `http://YOUR_COMPUTER_IP:5000` (find your local IP with `ipconfig getifaddr en0` on macOS).
+By default the server runs on `http://127.0.0.1:5000` and is also reachable from other devices on the same WiFi network at `http://YOUR_COMPUTER_IP:5000`. Find your local IP with:
+
+- macOS: `ipconfig getifaddr en0`
+- Linux: `hostname -I`
+- Windows: `ipconfig` (look for "IPv4 Address" under your active network adapter)
 
 On first load you'll be asked for the access password (numeric keypad on mobile). From the main screen you can start a trip, switch between stopped/moving, end the trip, view the daily history with total earnings, and lock the screen.
 
