@@ -10,6 +10,7 @@ TaxiTech Solutions has used physical Hale T200 taximeters since 2018. The manufa
 
 - Real-time fare calculation based on vehicle state (stopped / moving)
 - Configurable tariffs via a JSON file, no code changes required
+- Trip history persisted in a SQLite database for data integrity and structured queries
 - Daily trip history with total earnings summary
 - Password-protected access with hashed credentials (no plaintext passwords)
 - Screen lock feature, so passengers cannot tamper with the meter mid-ride
@@ -42,7 +43,7 @@ taxitech/
 │ ├── tarifas.json # Fare configuration
 │ └── security.json # Hashed access password
 ├── data/
-│ └── historial.json # Trip history storage
+│ └── historial.db # Trip history (SQLite database)
 ├── logs/
 │ └── taximetro.log # Application logs
 ├── src/
@@ -76,6 +77,17 @@ conda activate taximetro
 ```
 pip install -r requirements.txt
 ```
+
+## Quick Start
+
+Run the entire application with a single command:
+
+​```
+pip install -r requirements.txt && python -m src.interfaces.web
+​```
+
+The server starts at `http://127.0.0.1:5000`. No manual environment configuration is needed beyond having Python and pip installed. Trip data persists in `data/historial.db` (SQLite) across restarts.
+
 ## Usage
 
 ### Command-line interface
