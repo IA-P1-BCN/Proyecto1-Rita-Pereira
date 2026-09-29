@@ -6,6 +6,8 @@ A software prototype that replaces physical taxi meters with a fully digital sys
 ![Estado](https://img.shields.io/badge/Estado-En%20revisi%C3%B3n%20final-2dd4bf?style=flat&labelColor=333)
 ![Prioridad](https://img.shields.io/badge/Prioridad-Alta-e63946?style=flat&labelColor=333)
 
+🔗 [GitHub Repository](https://github.com/IA-P1-BCN/https://github.com/IA-P1-BCN/Proyecto1-Rita-Pereira) · [Kanban Board](https://github.com/orgs/IA-P1-BCN/projects/3)
+
 ## 📋 Project Context
 
 TaxiTech Solutions has used physical Hale T200 taximeters since 2018. The manufacturer discontinued support in 2023, and devices are starting to fail across the fleet. This project is a functional prototype to validate a 100% software-based replacement before committing budget to an external vendor.
@@ -146,6 +148,20 @@ Covers the fare calculation logic (`Tarifa.calcular_coste`) across normal, edge,
 ## 📝 Logging
 
 All key actions (trip start/end, state changes, login attempts) are logged to `logs/taximetro.log` for auditability.
+
+## 🗺️ Next Steps
+
+This prototype validates the core concept. Future phases could include:
+
+- **Multi-user accounts with role separation**: individual driver logins plus a fleet manager role, so trip history isn't tied to a single shared password
+- **Integrated GPS**: automatic detection of stopped/moving state based on speed, removing the need for manual toggling
+- **Centralized, extractable database**: a fleet-wide database the manager can query and export across all vehicles, not just one
+- **Digital receipts**: emailed or printable receipts for passengers
+- **Payment integration**: card/mobile payment support at the end of a trip
+- **Admin dashboard**: a web panel for the fleet manager with aggregated stats across drivers and days
+- **Push notifications**: alerts for the fleet manager (e.g. long idle periods, unusual fares)
+- **Integration and end-to-end tests**: beyond the current unit tests for fare calculation, covering the full trip flow and API
+- **Cloud deployment with CI/CD**: hosting the app centrally with automated testing and deployment on each change
 
 ## 👩‍💻 Author
 
