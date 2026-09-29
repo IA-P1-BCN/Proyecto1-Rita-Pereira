@@ -4,12 +4,15 @@ from src.domain.carrera import Carrera
 from src.interfaces.cli import cargar_tarifa
 from src.infrastructure.historial import guardar_carrera, obtener_historial_dia
 from src.infrastructure.auth import verificar_password
+from src.infrastructure.logger import configurar_logger
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 app = Flask(__name__, template_folder=os.path.join(BASE_DIR, "templates"))
 app.secret_key = "redhead"
 
 tarifa = cargar_tarifa()
+logger = configurar_logger()
+logger.info("Aplicación web iniciada.")
 carrera_activa = None
 
 @app.route("/login", methods=["GET", "POST"])
@@ -20,8 +23,10 @@ def login():
         if verificar_password(password):
             session["autenticado"] = True
             session["nombre"] = nombre
+            logger.info(f"Acceso concedido a {nombre}.")
             return redirect(url_for("home"))
         else:
+            logger.warning(f"Intento de acceso con contraseña incorrecta para {nombre}.")
             return render_template("login.html", error="Contraseña incorrecta")
     return render_template("login.html")
 
@@ -39,6 +44,7 @@ def iniciar_carrera():
         return jsonify({"error": "Ya hay una carrera en curso."}), 400
     else:
         carrera_activa = Carrera()
+        logger.info("Carrera iniciada.")
         return jsonify({"mensaje": "Carrera iniciada", "estado": carrera_activa.estado_actual})
 
 @app.route("/api/carrera/estado", methods=["POST"])
@@ -50,6 +56,7 @@ def cambiar_estado():
     else:
         nuevo_estado = "movimiento" if carrera_activa.estado_actual == "parado" else "parado"
         carrera_activa.cambiar_estado(nuevo_estado)
+        logger.info(f"Estado de la carrera cambiado a {nuevo_estado}.")
         return jsonify({"mensaje": "Estado cambiado", "estado": nuevo_estado})
 
 @app.route("/api/carrera/finalizar", methods=["POST"])
@@ -63,6 +70,7 @@ def finalizar_carrera():
         total = carrera_activa.calcular_total(tarifa)
         guardar_carrera(carrera_activa, tarifa)
         carrera_activa = None
+        logger.info(f"Carrera finalizada. Total: {round(total, 2)}")
         return jsonify({"mensaje": "Carrera finalizada", "total": round(total, 2)})
 
 @app.route("/api/carrera/actual", methods=["GET"])
@@ -81,6 +89,7 @@ def ver_historial():
 
 @app.route("/logout")
 def logout():
+    logger.info(f"Usuario {session.get('nombre')} ha cerrado sesión.")
     session.pop("autenticado", None)
     session.pop("nombre", None)
     return redirect(url_for("login"))

@@ -8,20 +8,23 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #1a1a1a;
+            background-color: #14171c;
             color: white;
             margin: 0;
             padding: 20px;
         }
         .card {
-            background-color: #2a2a2a;
+            background-color: #1c2028;
             border-radius: 20px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
             padding: 25px 20px;
             max-width: 420px;
             margin: 0 auto;
         }
-        h1 { font-size: 1.5em; }
+        h1 { 
+            font-size: 1.5em;
+        color: #5eead4; 
+        }
         #estado {
             font-size: 1.3em;
             margin: 20px 0;
@@ -29,7 +32,7 @@
         #total {
             font-size: 3em;
             font-weight: bold;
-            color: #4CAF50;
+            color: #5eead4;
             margin: 20px 0;
         }
         button {
@@ -42,11 +45,12 @@
             border-radius: 16px;
             cursor: pointer;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            font-weight: bold;
         }
-        #btn-iniciar { background-color: #4CAF50; color: white; }
-        #btn-estado { background-color: #FF9800; color: white; }
-        #btn-finalizar { background-color: #f44336; color: white; }
-        #btn-historial { background-color: #2196F3; color: white; }
+        #btn-iniciar { background-color: #2dd4bf; color: #f0f0f0; }
+        #btn-estado { background-color: #d4a373; color: #f0f0f0; }
+        #btn-finalizar { background-color: #e07a5f; color: #f0f0f0; }
+        #btn-historial { background-color: #7b93c9; color: #f0f0f0; }
         #mensaje { margin: 15px 0; min-height: 1.5em; }
         #historial-lista { text-align: left; max-width: 400px; margin: 0 auto; }
     </style>
@@ -63,7 +67,7 @@
         <button id="btn-estado" onclick="cambiarEstado()">Cambiar Estado</button>
         <button id="btn-finalizar" onclick="finalizarCarrera()">Finalizar Carrera</button>
         <button id="btn-historial" onclick="verHistorial()">Ver Histórico</button>
-        <button id="btn-bloquear" onclick="location.href='/logout'" style="background-color: #555; color: white;">Bloquear
+        <button id="btn-bloquear" onclick="location.href='/logout'" style="background-color: #4a4e58; color: white;">Bloquear
             pantalla</button>
 
         <div id="historial-lista"></div>

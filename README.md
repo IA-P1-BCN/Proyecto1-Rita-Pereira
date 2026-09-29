@@ -1,12 +1,16 @@
-# TaxiTech Solutions — Digital Taximeter
+# 🚕 TaxiTech Solutions — Digital Taximeter
 
 A software prototype that replaces physical taxi meters with a fully digital system, built as a pilot project for TaxiTech Solutions' operations team.
 
-## Project Context
+![Python](https://img.shields.io/badge/Python-3.10+-blue?style=flat&logo=python&logoColor=white&labelColor=333)
+![Estado](https://img.shields.io/badge/Estado-En%20revisi%C3%B3n%20final-2dd4bf?style=flat&labelColor=333)
+![Prioridad](https://img.shields.io/badge/Prioridad-Alta-e63946?style=flat&labelColor=333)
+
+## 📋 Project Context
 
 TaxiTech Solutions has used physical Hale T200 taximeters since 2018. The manufacturer discontinued support in 2023, and devices are starting to fail across the fleet. This project is a functional prototype to validate a 100% software-based replacement before committing budget to an external vendor.
 
-## Features
+## ✨ Features
 
 - Real-time fare calculation based on vehicle state (stopped / moving)
 - Configurable tariffs via a JSON file, no code changes required
@@ -19,7 +23,7 @@ TaxiTech Solutions has used physical Hale T200 taximeters since 2018. The manufa
 - Activity logging for auditability
 - Unit tests for the fare calculation logic
 
-## Current Tariffs (EMT Madrid Zone, June 2025)
+## 💶 Current Tariffs (EMT Madrid Zone, June 2025)
 
 | Status | Rate |
 |---|---|
@@ -28,7 +32,7 @@ TaxiTech Solutions has used physical Hale T200 taximeters since 2018. The manufa
 
 Rates are editable in `config/tarifas.json` without touching the code.
 
-## Architecture
+## 🏗️ Architecture
 
 The project follows a layered architecture:
 
@@ -36,7 +40,14 @@ The project follows a layered architecture:
 - `src/infrastructure/` — technical support (logging, persistence, authentication)
 - `src/interfaces/` — entry points (`cli.py` for the command line, `web.py` for the Flask web/API app)
 
-## Project Structure
+## 🛠️ Technical Decisions
+
+- **Flask**: lightweight enough for a prototype, no unnecessary boilerplate, and lets the same business logic (`domain/`) power both the CLI and the web app without duplication.
+- **SQLite**: no external database server to install or configure, fits the single-command deployment requirement, and still gives relational integrity and structured queries — enough for a pilot with one vehicle.
+- **Layered architecture** (`domain` / `infrastructure` / `interfaces`): keeps business rules independent of any specific interface or storage technology, so either can be replaced (e.g. SQLite → PostgreSQL, or adding a mobile client) without touching the fare logic.
+- **Conda**: consistent, reproducible environment across development machines.
+
+## 📁 Project Structure
 ```
 taxitech/
 ├── config/
@@ -66,7 +77,7 @@ taxitech/
 ├── pytest.ini
 └── requirements.txt
 ```
-## Setup
+## ⚙️ Setup
 
 1. Create and activate the conda environment:
 ```
@@ -78,7 +89,7 @@ conda activate taximetro
 pip install -r requirements.txt
 ```
 
-## Quick Start
+## 🚀 Quick Start
 
 Run the entire application with a single command:
 
@@ -88,7 +99,7 @@ pip install -r requirements.txt && python -m src.interfaces.web
 
 The server starts at `http://127.0.0.1:5000`. No manual environment configuration is needed beyond having Python and pip installed. Trip data persists in `data/historial.db` (SQLite) across restarts.
 
-## Usage
+## ▶️ Usage
 
 ### Command-line interface
 ```
@@ -109,7 +120,7 @@ By default the server runs on `http://127.0.0.1:5000` and is also reachable from
 
 On first load you'll be asked for the access password (numeric keypad on mobile). From the main screen you can start a trip, switch between stopped/moving, end the trip, view the daily history with total earnings, and lock the screen.
 
-## REST API
+## 🔌 REST API
 
 All endpoints require an authenticated session (login via `/login` first).
 
@@ -121,21 +132,21 @@ All endpoints require an authenticated session (login via `/login` first).
 | GET | `/api/carrera/actual` | Get the live state and running total of the active trip |
 | GET | `/api/historial` | Get today's trip history |
 
-## Security
+## 🔒 Security
 
 Access is protected by a password, stored as a SHA-256 hash in `config/security.json` — no plaintext credentials are stored anywhere in the project.
 
-## Testing
+## ✅ Testing
 ```
 pytest
 ```
 
 Covers the fare calculation logic (`Tarifa.calcular_coste`) across normal, edge, and zero-rate cases.
 
-## Logging
+## 📝 Logging
 
 All key actions (trip start/end, state changes, login attempts) are logged to `logs/taximetro.log` for auditability.
 
-## Author
+## 👩‍💻 Author
 
 Rita Pereira — IA School, Project P1 (TaxiTech Solutions)
